@@ -1,0 +1,50 @@
+<ion-view view-title="My Influences">
+  
+  <div class="bar bar-subheader bar-search">
+    <form class="filter" ng-submit="search()">
+      <input type="text" 
+      ng-model="data.query" 
+      ng-model-options="{ debounce: 500 }"
+      ng-change="search()"
+      placeholder="Search for influences"
+      autocomplete="off" 
+      autocorrect="off" 
+      autocapitalize="off" 
+      spellcheck="false"/>
+      <i class="icon ion-ios-search" ng-click="search()"></i>
+    </form>
+  </div>
+
+  <ion-content class="content has-subheader" scroll-sista="subheader">
+    <section class="margin-8">
+      <ul class="profiles-list-two">
+        <li ng-repeat="item in results">
+          <figure ng-click="navigateTo('path', 'influence/profile', item.user_id)">
+            <avatar-img img="item.avatar_file_name" text="item.first_name"></avatar-img>
+          </figure>
+          <p ng-click="navigateTo('path', 'influence/profile', item.user_id)">{{ item.username}}</p>
+          <p><span>{{ item.first_name}} {{ item.last_name}}</span></p>
+          <a class="follow-action" ng-click="follow(item)">
+            <i class="icon ion-person" style="color: #adb7c6"></i>
+            <i class="icon ion-plus-circled calm"></i> 
+          </a>
+        </li>
+      </ul>
+      <button class="btn-large btn-primary margin-v-10" ng-click="more()" ng-hide="(results.length < data.page * data.max_count) || loading">See More</button><br>
+    </section>
+
+    <section ng-show="suggested.length" class="margin-8">
+      <ul class="profiles-list-two">
+        <li class="title">Suggested from Facebook</li>
+        <li ng-repeat="item in suggested">
+          <figure ng-click="navigateTo('path', 'influence/profile', item.user_id)">
+            <avatar-img img="item.avatar_file_name" text="item.first_name"></avatar-img>
+          </figure>
+          <p ng-click="navigateTo('path', 'influence/profile', item.user_id)">{{ item.username}}</p>
+          <p><span>{{ item.first_name}} {{ item.last_name}}</span></p>
+          <p class="btn-plus-1" ng-click="facebookFollow(item)"></p>
+        </li>
+      </ul>
+    </section>
+  </ion-content>
+</ion-view>

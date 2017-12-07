@@ -1,0 +1,12 @@
+<div class="item item-link" ng-click="socialActivityHandler.navigate(item)">
+  <div class="avatar">
+    <figure ng-click="socialActivityHandler.navigateToOwner(item);$event.stopPropagation();">
+      <avatar-img ng-if="!item.get('isDefaultAvatar')" img="item.get('avatar')" text="item.get('avatar_title')"></avatar-img>
+      <ng-letter-avatar ng-if="item.get('isDefaultAvatar')" data="{{(item.get('avatar_title')| trim)}}"></ng-letter-avatar>
+    </figure>
+  </div>
+  <div class="item-content">
+    <div ng-bind-html="item.get('html_message')"></div>
+    <i ng-class="['sa-type', item.get('sa-icon')]"><time>{{ item.get('created_at') | elapsed }}</time> ago</i>
+  </div>
+</div>

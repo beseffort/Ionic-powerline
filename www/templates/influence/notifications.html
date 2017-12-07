@@ -1,0 +1,36 @@
+<ion-view view-title="Powerline" hide-back-button="true" class="has-notifications-bar">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
+  <section ng-include="'templates/notifications.html'"></section>
+  
+  <ion-content class="content">
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="pullToRefresh()">
+    </ion-refresher>
+
+    <tab-panel open="currentTab.options.key">
+      <ul class="header header-50">
+        <li ng-click="open($event); setCurrentTab(tabYou)">
+          You <i class="counter" ng-show="tabYou.counterIsVisible()">{{ tabYou.get('number_of_new')}}</i>
+        </li>
+        <li ng-click="open($event); setCurrentTab(tabFollowing)">
+          Following <i class="counter" ng-show="tabFollowing.counterIsVisible()">{{ tabFollowing.get('number_of_new')}}</i>
+        </li>
+      </ul>
+      <tabs style="background: #fff;border-right: solid 1px #dae3e6;" ng-style="{'min-height': (minContentHeight - 130) + 'px'}">
+        <tab class="sa-items">
+          <sa-item ng-repeat="item in tabYou.get('activities')"></sa-item>
+          <p ng-hide="tabYou.get('activities').length || loading" class="no-results">Seems quiet in here. Are you following anyone?</p>
+        </tab>
+        <tab class="sa-items">
+          <sa-item ng-repeat="item in tabFollowing.get('activities')"></sa-item>
+          <p ng-hide="tabFollowing.get('activities').length || loading" class="no-results">Seems quiet in here. Are you following anyone?</p>
+        </tab>
+      </tabs>
+    </tab-panel>
+    
+  </ion-content>
+</ion-view>

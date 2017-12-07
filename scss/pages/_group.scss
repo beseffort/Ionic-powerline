@@ -1,0 +1,62 @@
+.page-join-group {
+  @include iphone6AndLower{
+    .text-field{
+      input{
+        height: 30px;
+      }
+    }
+  }
+}
+
+.page-my-groups{
+  .profiles-list{
+    .button-remove{
+      position: absolute;
+      right: 0px;
+      top: 10px;
+      .icon:before{
+        font-size: 28px;
+        color: #762026;
+      }
+    }
+  }
+}
+
+.group-avatar {
+    position: absolute;
+    z-index: 1;
+    top: 2px;
+    right: 2px;
+    width: 15px;
+    height: 15px;
+    background-size: 100%;
+}
+
+.account-type {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    .item-input {
+        position: relative;
+        background: #eaf1f4;
+        border: 1px solid #a5bbd9;
+        padding: 6px;
+        border-radius: 5px;
+    }
+    .input-label {
+        margin-left: 7px;
+    }
+    select {
+        background: #eaf1f4;
+    }
+}
+
+.cardForm {
+  .link {
+    color: blue;
+    text-decoration: underline;
+  }
+ .agreement {
+    font-size: 15px;
+    padding: 6px;
+  }
+}

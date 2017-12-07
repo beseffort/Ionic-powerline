@@ -1,0 +1,87 @@
+<ion-view view-title="Petition" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button class="button back-button buttons button-clear header-item" ng-click="goToHomeScreen()">
+      <i class="icon ion-ios-arrow-back"></i> 
+    </button>
+  </ion-nav-buttons>
+  <ion-content class="page-petition content">
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="pullToRefresh()">
+    </ion-refresher>
+    
+    <section class="q-header margin-10">
+      <div class="avatar" ng-click="navigateTo('owner-profile', petition.owner)">
+        <avatar-img img="petition.owner.avatar" text="petition.owner.name"></avatar-img>
+      </div>
+      <div class="q-info">
+        <div>
+          <i class="icon-responses"></i> Responses <br>
+          <span ng-bind="petition.signedForPetitionCount()"></span>
+        </div>
+
+        <div>
+          <i class="icon-calendar"></i> Created <br>
+          <time ng-bind="petition.created_at_date | date:'M.d.yy'"></time>
+        </div>
+        <div>
+          <i class="icon-calendar"></i> Expires<br>
+          <time ng-bind="petition.expired_at_date | date:'M.d.yy'"></time>
+        </div>
+        <div>
+          Petition <br>
+          <i class="icon-petition"></i>
+        </div>
+      </div>
+    </section>
+
+    <section class="q-content">
+      <div class="title">
+          <strong ng-click="navigateTo('owner-profile', petition.owner)">{{petition.owner.name}} | </strong>
+          <strong ng-click="navigateTo('group-profile', group)">{{group.official_name}}</strong>
+      </div>
+      
+      <h1 ng-bind="petition.title" ng-show="petition.title"></h1>\
+      <div ng-if="group.user_role=='owner' || group.user_role=='manager'" class="report-button" ng-click="report()">
+        <img src="images/icons/reporticon-blue.png" style="width:30px"/>
+      </div>
+      <div>
+        <p ng-bind-html="petition.html_body" i-content-link></p>
+      </div>
+
+      <div ng-show="petition.canSeeResults()">
+        <div class="chart">
+          <p class="info-message">Current  Results</p>
+          <p>Votes for this petition: {{petition.signedForPetitionCount() + 1}} </p>
+        </div>
+      </div>
+
+      <section class="margin-h-10" ng-show="petition.canBeSigned() || petition.canBeUnsigned()">
+          <div  style="float: left;width: 50%;padding-top: 12px;" class="margin-v-20">
+              <div class="checkbox-privacy" ng-class="{checked: data.privacy == 'private'}" ng-click="data.privacy = data.privacy == 'private' ? 'public' : 'private'" guide="privacy-option">
+                  <i></i>
+                  {{ data.privacy == 'private' ? 'Username hidden' : 'Username visible'  }}
+              </div>
+          </div>
+          <div style="float: left;width: 50%;" class="margin-v-20">
+              <button class="btn-large btn-primary" ng-click="sign()" ng-show="petition.canBeSigned()">Sign</button>
+              <button class="btn-large btn-primary" ng-click="unsign()" ng-show="petition.canBeUnsigned()">Unsign</button>
+          </div>
+      </section>
+
+      <ng-include src="'templates/widget/share.html'"></ng-include>
+    </section>
+
+
+    <tab-panel>
+      <ul class="header">
+        <li ng-click="open($event)">Discussion</li>
+        <li ng-click="open($event)">More</li>
+      </ul>
+      <tabs>
+        <tab><discussions id="petition.id" entity="'poll'"></discussions></tab>
+        <tab><show-attachments content-item="petition"></show-attachments></tab>
+      </tabs>
+    </tab-panel>
+  </ion-content>
+</ion-view>

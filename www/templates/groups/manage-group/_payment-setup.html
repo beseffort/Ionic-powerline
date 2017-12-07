@@ -1,0 +1,37 @@
+<div class="manage-group-section" ng-class="isExpanded('payment-setup') ? 'active' : ''">
+  <div class="expand-icon" ng-click="toggleVisibility('payment-setup')"></div>
+  <div class="title" ng-click="toggleVisibility('payment-setup')">Fundraiser Setup</div>
+  <div class="content" ng-show="isExpanded('payment-setup')">
+
+    <div>
+      <div ng-hide="group.bankAccount">
+        In order to send fundraisers to your group, you must provide a bank account first.
+      </div>
+
+      <div ng-show="group.bankAccount">
+        This group has following bank account:<br/>
+        Bank name: {{group.bankAccount.bank_name || 'Unknown bank name'}}<br />
+        Account number ends with: {{group.bankAccount.last4}}
+      </div>
+    </div>
+
+    <div class="save-button-holder" style="margin-top: 11px;">
+      <button 
+        ng-click="addBankAccount()"
+        class="button btn-primary">
+        {{group.bankAccount ? 'Change' : 'Add'}} Bank Account
+      </button>
+      <button 
+      ng-show="group.bankAccount"
+        ng-click="deleteBankAccount()"
+        class="button btn-primary delete-action">
+        Remove Account
+      </button>
+    </div>
+  </div>
+</div>
+
+<group-bank-account-form ng-show="showAddBankAccountPopup"
+  cancel="showAddBankAccountPopup=false"
+  completed="showAddBankAccountPopup=false;bankAccountAdded()"
+  group="group" profile="profile"></group-bank-account-form>

@@ -1,0 +1,18 @@
+.news-feed {
+  .notifications {
+    position: fixed;
+    top: $mainHeaderHeight;
+  }
+
+  .groups-filter-panel {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: $mainHeaderHeight + $notificationsTabHeight;
+    z-index: 9;
+  }
+
+  .content {
+    top: $mainHeaderHeight + $notificationsTabHeight + 50px;
+  }
+}

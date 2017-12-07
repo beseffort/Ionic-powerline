@@ -1,0 +1,62 @@
+<ion-view view-title="QUESTION" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button class="button back-button buttons button-clear header-item" ng-click="goToHomeScreen()">
+      <i class="icon ion-ios-arrow-back"></i> 
+    </button>
+  </ion-nav-buttons>
+  <ion-content class="page-question">
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="pullToRefresh()">
+    </ion-refresher>    
+    <section class="q-header margin-10">
+      <div class="avatar" ng-click="navigateTo('owner-profile', q.group)">
+        <avatar-img img="q.group.avatar_file_path" text="q.group.official_name"></avatar-img>
+      </div>
+      <div class="q-info">
+        <div>
+          <i class="icon-responses"></i> Responses <br>
+          <span ng-bind="q.votes_count"></span>
+        </div>
+        <div>
+          <i class="icon-calendar"></i> Created <br>
+          <time ng-bind="q.published_at_date | date:'M.d.yy'"></time>
+        </div>
+        <div>
+          <i class="icon-calendar"></i> Expires<br>
+          <time ng-bind="q.expired_at | date:'M.d.yy'"></time>
+        </div>
+        <div>
+          Question <br>
+          <i class="icon-poll"></i>
+        </div>
+      </div>
+    </section>
+
+    <section class="q-content">
+      <div class="title">
+        <strong ng-bind="q.user.official_title + ' ' + q.user.first_name +  ' '  +  q.user.last_name" ng-click="navigateTo('owner-profile', q.user)"></strong>
+      </div>
+
+      <div ng-if="q.group.user_role=='owner' || q.group.user_role=='manager'" class="report-button" ng-click="report()">
+        <img src="images/icons/reporticon-blue.png" />
+      </div>
+      <p i-bind-taggable="q.subject" i-tags="q.cached_hash_tags"></p>
+      
+
+      <ng-include src="subview"></ng-include>
+      <ng-include src="'templates/widget/share.html'"></ng-include>
+    </section>
+
+    <tab-panel>
+      <ul class="header">
+        <li ng-click="open($event)">Discussion</li>
+        <li ng-click="open($event)">More</li>
+      </ul>
+      <tabs>
+        <tab><discussions id="q.id" entity="'poll'"></discussions></tab>
+        <tab><show-attachments content-item="q"></show-attachments></tab>
+      </tabs>
+    </tab-panel>
+  </ion-content>
+</ion-view>

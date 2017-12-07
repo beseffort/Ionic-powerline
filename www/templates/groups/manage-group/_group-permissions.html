@@ -1,0 +1,26 @@
+<div class="manage-group-section" id="group-permissions" ng-class="isExpanded('group-permissions') ? 'active' : ''">
+  <div class="expand-icon" ng-click="toggleVisibility('group-permissions')"></div>
+  <div class="title" ng-click="toggleVisibility('group-permissions')">Group Permissions</div>
+  <div class="content" ng-show="isExpanded('group-permissions')">
+
+    <div>
+      <ion-list>
+
+        <ion-checkbox
+        ng-repeat="(pID, pHumanName) in allGroupPermissions"
+        ng-model="data.selectedPermissions[pID]" ng-disabled="pID=='permissions_responses'">{{pHumanName}}</ion-checkbox>
+
+      </ion-list>
+    </div>
+
+    <div class="save-button-holder">
+      <button ng-show="groupPermissionsAltered()"
+        ng-click="saveGroupPermissions()"
+        class="button btn-primary">
+        Save
+      </button>
+    </div>
+
+
+  </div>
+</div>

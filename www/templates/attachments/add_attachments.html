@@ -1,0 +1,64 @@
+<div style="width: 200px; padding-left: 14px;" class="margin-v-20">
+  <button class="btn-large btn-primary icon-left ion-plus-circled" 
+    ng-click="displayAttachmentsForm = true"
+    ng-show="!displayAttachmentsForm">
+    Add attachments
+  </button>
+ </div>
+
+<div ng-show="displayAttachmentsForm">
+  <div style="text-align: center; background-color: #54c5ff; padding: 6px; border-top: 3px solid white; border-bottom: 3px solid white; font-size: 16px; font-weight: 900; color: white;">
+    Attachments
+  </div>
+
+  <p style="margin-top: 5px; text-align: center;">You can add max three attachments</p>
+  <fieldset class="add-post">
+    <div style="width: 200px;" class="margin-v-20">
+      <button class="btn-large btn-primary icon-left ion-plus-circled"
+      ng-click="addText()" ng-show="addTextButtonVisible()">
+        Add text
+      </button>
+      <button class="btn-large button-remove icon-left ion-minus-circled"
+      ng-click="removeText()" ng-show="textAttachmentVisible()">
+        Remove text
+      </button>
+    </div>
+
+    <div class="title-field" ng-show="textAttachmentVisible()">
+        <textarea ng-model="contentItem.attachments.text[0]" maxlength="2500" placeholder="Attachment text here">
+        </textarea>    
+    </div>
+    <div style="width: 200px;" class="margin-v-20">
+      <button class="btn-large btn-primary icon-left ion-plus-circled"
+      ng-click="addImage()" ng-show="addImageButtonVisible()">
+        Add image
+      </button>
+    </div>
+
+    <div class="item" ng-repeat="imgURI in contentItem.attachments.images track by $index">
+       <button style="float:right; position: relative; top: -21px; right: -23px;" 
+        class="button icon ion-close-circled button-clear"
+        ng-click="removeImage($index)">
+        </button>
+        <img style="width: 70%;" ng-src="data:image/jpeg;base64,{{imgURI}}">
+    </div>
+
+    <div style="width: 200px;" class="margin-v-20">
+      <button class="btn-large btn-primary icon-left ion-plus-circled"
+      ng-click="addVideo()" ng-show="addVideoButtonVisible()">
+        Add video
+      </button>
+    </div>
+    <div class="title-field" ng-repeat="videoURL in contentItem.attachments.videos track by $index">
+        <button style="float:right; position: relative; top: -12px; right: -14px;" 
+        class="button icon ion-close-circled button-clear"
+        ng-click="removeVideo($index)">
+        </button>
+        <div style="overflow: hidden;">
+          <input ng-model="contentItem.attachments.videos[$index]" maxlength="255" required placeholder="Youtube video URL" />
+        </div>
+    </div>
+
+  </fieldset>
+</div>
+  

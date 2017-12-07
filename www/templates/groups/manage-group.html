@@ -1,0 +1,33 @@
+<ion-view view-title="Manage Group">
+
+  <ion-content class="content">
+
+    <section class="p-header">
+      <div class="avatar" ng-click="actionAvatar()">
+        <i class="icon-photo group-avatar"></i>
+        <avatar-img img="group.avatar_file_path" text="group.official_name"></avatar-img>
+      </div>
+
+      <h3 ng-bind="group.official_name"></h3>
+    </section>
+
+    <section class="manage-group-sections">
+      <div ng-include="'templates/groups/manage-group/_basic-settings.html'"></div>
+      <div ng-show="currentUserIsOwner()" ng-include="'templates/groups/manage-group/_subscription-level.html'"></div>
+      <div ng-show="currentUserIsOwner()" ng-include="'templates/groups/manage-group/_payment-setup.html'"></div>
+      <div ng-include="'templates/groups/manage-group/_membership-control.html'"></div>
+      <div ng-include="'templates/groups/manage-group/_group-permissions.html'"></div>
+      <div ng-include="'templates/groups/manage-group/_members.html'"></div>
+      <div ng-include="'templates/groups/manage-group/_sections.html'"></div>
+      <div ng-show="usingPaidSubscription()" ng-include="'templates/groups/manage-group/_user-content-settings.html'"></div>
+      <div ng-include="'templates/groups/manage-group/_group-invites.html'"></div>
+      <div ng-include="'templates/groups/manage-group/_reports.html'"></div>
+    </section>
+
+    </div>
+    <div style="height: 400px;">
+      &nbsp;
+    </div>
+    </div>
+  </ion-content>
+</ion-view>

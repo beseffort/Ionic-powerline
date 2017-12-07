@@ -1,0 +1,50 @@
+<ion-view view-title="Group Members">
+  
+  <section ng-show="showPostWindow" class="new-post-window" ng-click="$event.stopPropagation()">
+    <a ng-click="followAll()" class="micropetition"><span class="text">Follow All</span></a>
+  </section>
+  <ion-content class="content">
+
+    <section class="p-header">
+      <div class="avatar">
+        <avatar-img img="group.avatar_file_path" text="group.official_name"></avatar-img>
+      </div>
+
+      <h3 ng-bind="group.official_name"></h3>
+      <br><br>
+      <button class="btn-large btn-primary" 
+        style="text-transform: capitalize" 
+        ng-click="followAll()"
+        ng-hide="followingAll">
+        <i class="icon ion-person-stalker" style="font-size: 25px"></i>
+        <i class="icon ion-plus-circled" style="font-size: 14px; vertical-align: middle"></i> 
+        <span style="margin-left: 5px; vertical-align: text-top">Follow All</span>
+      </button>              
+    </section>
+
+  <section class="margin-8">
+    <ul class="profiles-list-two">
+      <li ng-repeat="member in group.groupMembers">
+        <figure ng-click="navigateTo('path', 'influence/profile', member.id)">
+          <avatar-img img="member.avatar_file_name" text="member.first_name"></avatar-img>
+        </figure>
+        <p ng-click="navigateTo('path', 'influence/profile', member.id)">{{ member.username}}</p>
+        <p ng-show="!pendingApproval(member)"><span>{{ member.first_name}} {{ member.last_name}}</span></p>
+        <p ng-show="pendingApproval(member)" class="pending-message">pending approval</p>
+
+        <a class="follow-action" ng-click="follow(member)" ng-show="isFollowable(member)">
+          <i class="icon ion-person" style="color: #adb7c6"></i>
+          <i class="icon ion-plus-circled calm"></i> 
+        </a>
+
+        <a class="follow-action" ng-click="unfollow(member)" ng-show="isUnfollowable(member)">
+          <i class="icon ion-person calm"></i>
+          <i class="icon ion-minus-circled" style="color: #adb7c6"></i> 
+        </a>
+
+      </li>
+    </ul>
+  </section>
+
+  </ion-content>
+</ion-view>

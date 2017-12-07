@@ -1,0 +1,25 @@
+<ion-view view-title="New Group Announcement">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear" ng-click="sendButtonClicked()">Send</button>
+  </ion-nav-buttons>
+
+  <ion-content class="content has-footer" has-bouncing="false">
+    <ng-include src="'templates/shared/_create-content-group-picker.html'"></ng-include>
+
+    <form name="announcementForm" novalidate ng-class="formClass" autocomplete="off">
+      <fieldset class="add-post">
+        <textarea ng-model="data.announcement_text" maxlength="250" name="announcement_text"
+                  required placeholder="Type your message here"
+                  ng-init="data.chars_left = 250"
+                  ng-change="data.chars_left = 250 - data.announcement_text.length"></textarea>
+      </fieldset>
+    </form>
+  </ion-content>
+
+  <section class="footer-fixed" style="padding: 18px 12px;">
+    <strong class="right" ng-bind="data.chars_left"></strong>
+    <span ng-show="data.group && data.group.available !== undefined">
+      You have (<strong>{{ data.group.available}}</strong>) announcements left in this group
+    </span>
+  </section>
+</ion-view>

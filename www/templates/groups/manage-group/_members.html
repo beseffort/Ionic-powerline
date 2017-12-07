@@ -1,0 +1,45 @@
+<div class="manage-group-section" ng-class="isExpanded('members') ? 'active' : ''">
+  <div class="expand-icon" ng-click="toggleVisibility('members')"></div>
+  <div class="title" ng-click="toggleVisibility('members')">Manage Group Members</div>
+  <div class="content" ng-show="isExpanded('members')">
+
+    <table>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr ng-repeat="member in group.groupMembers | orderBy:'username'">
+        <td>
+          <span class="member-label">Name:</span> {{member.first_name}} {{member.last_name}}<br />
+          <span class="member-label">Role:</span> {{member.user_role}}
+        </td>
+        
+        <td class="actions">
+          <button 
+            ng-show="membershipIsPending(member)"
+            class="button-small icon ion-ios-checkmark"
+            style="background-color: rgba(0,0,0,0); color: #5151ff"
+            ng-click="approveMembership(member)">
+          </button>
+          <button 
+            ng-show="canBecameManager(member)"
+            style="background-color: rgba(0,0,0,0); color: #030366"
+            class="button-small icon ion-arrow-up-a"
+            ng-click="makeManager(member)">
+          </button>
+          <button 
+            ng-show="canBeDowngradedToNormalMember(member)"
+            class="button-small icon ion-arrow-down-a"
+             style="background-color: rgba(0,0,0,0); color: #030366"
+            ng-click="makeNormalMember(member)">
+          </button>
+          <button 
+            ng-show="canRemoveUser(member)"
+            class="button-small icon ion-trash-b delete-action"
+            ng-click="removeFromGroup(member)">
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

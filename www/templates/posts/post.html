@@ -1,0 +1,149 @@
+<ion-view view-title="Post" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button class="button back-button buttons button-clear header-item" ng-click="goToHomeScreen()">
+      <i class="icon ion-ios-arrow-back"></i> 
+    </button>
+  </ion-nav-buttons>
+  
+  <ion-content class="page-petition content">
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="pullToRefresh()">
+    </ion-refresher>
+
+    <section class="q-header margin-10">
+      <div class="avatar" ng-click="navigateTo('owner-profile', post.owner)">
+        <avatar-img img="post.owner.avatar" text="post.owner.name"></avatar-img>
+      </div>
+      <div class="q-info">
+        <div>
+          <i class="icon-responses"></i> Responses <br>
+          <span ng-bind="post.votesCount()"></span>
+        </div>
+
+        <div>
+          <i class="icon-calendar"></i> Created <br>
+          <time ng-bind="post.created_at_date | date:'M.d.yy'"></time>
+        </div>
+        <div>
+          <i class="icon-calendar"></i> Expires<br>
+          <time ng-bind="post.expired_at_date | date:'M.d.yy'"></time>
+        </div>
+        <div>
+          Post <br>
+          <i class="icon-post"></i>
+        </div>
+      </div>
+    </section>
+
+    <section class="q-content">
+      <div class="title">
+        <div>
+          <strong ng-click="navigateTo('owner-profile', post.owner)">{{post.owner.name}} | </strong>
+          <strong ng-click="navigateTo('group-profile', group)">{{group.official_name}}</strong>
+        </div>
+
+        <a ng-show="post.ownedByCurrentUser()" ng-click="showDeleteConfirm()">
+          <i class="button-assertive icon ion-trash-a action-icon">
+          </i>
+        </a>
+        <a ng-show="post.ownedByCurrentUser() && !post.isBoosted()" ng-click="onEditBtnClicked()">
+          <i ng-class="{'ion-edit':inEditMode==false,'ion-checkmark':inEditMode==true}" class="action-icon">
+          </i>
+        </a>
+        <a ng-show="isBoostable()" ng-click="onBoostButtonClicked()">
+          <i class="button-assertive icon ion-flash action-icon">
+          </i>
+        </a>
+        <a ng-show="canInviteSupporters()" ng-click="inviteSupporters()">
+          <i class="button-assertive icon ion-speakerphone action-icon">
+          </i>
+        </a>
+      </div>
+      
+      <h1 ng-bind="post.title" ng-show="post.title"></h1>
+      <div contenteditable="true">
+        <p ng-click="searchByTag($event)" ng-hide="inEditMode" ng-bind-html="post.html_body" i-content-link></p>
+        <textarea ng-model="post.body" ng-show="inEditMode" i-tags i-open-system-links style="border: 1px solid grey;
+            margin-left: 10px;
+            width: 90vw;
+            text-align: left;
+            min-height: 200px">
+        </textarea>
+      </div>
+
+      <div ng-show="canAnswer()">
+        <fieldset>
+            <div class="checkbox-field" ng-class="isAnswerActive('upvote') ? 'active': ''" ng-click="chooseAnswer('upvote')">
+                <span><i></i></span>
+                <p>Upvote</p>
+            </div>
+            <div class="checkbox-field" ng-class="isAnswerActive('downvote') ? 'active': ''" ng-click="chooseAnswer('downvote')">
+                <span><i></i></span>
+                <p>Downvote</p>
+            </div>
+            <div class="checkbox-field" ng-class="isAnswerActive('ignore') ? 'active': ''" ng-click="chooseAnswer('ignore')">
+                <span><i></i></span>
+                <p>Ignore</p>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="padding-10" ng-hide="selectedAlreadyAnsweredAnswer()">
+                <button class="btn-large btn-primary" 
+                ng-class="submitDisabled() ? 'disabled' : ''"
+                ng-click="submitAnswer()">Submit</button>
+            </div>
+            <div class="padding-10" ng-show="selectedAlreadyAnsweredAnswer()">
+                <button class="btn-large btn-primary" 
+                ng-click="undoAnswer()">Undo</button>
+            </div>
+        </fieldset>
+      </div>    
+
+      <div ng-show="!canAnswer()">
+        <div class="chart">
+          <p class="info-message">Current  Results</p>
+          <ul>
+            <li>
+              <h4>A</h4>
+              <div>
+                <figure>
+                  <i style="background-color: #54c5ff"
+                   ng-style="{width: post.upvoteResultsInPercents + '%'}"> 
+                    <span>{{post.upvoteResultsInPercents}}%</span>
+                    </i>
+                </figure>
+              </div>
+              <p class="value">Upvote</p>
+            </li>
+            <li>
+              <h4>B</h4>
+              <div>
+                <figure>
+                  <i style="background-color: #ba3830"
+                   ng-style="{width: post.downvoteResultsInPercents + '%'}"> 
+                    <span>{{post.downvoteResultsInPercents}}%</span>
+                    </i>
+                </figure>
+              </div>
+              <p class="value">Downvote</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <ng-include src="'templates/widget/share.html'"></ng-include>
+    </section>
+
+
+    <tab-panel>
+      <ul class="header">
+        <li ng-click="open($event)">Discussion</li>
+      </ul>
+      <tabs>
+        <tab><discussions id="post.id" entity="'posts'"></discussions></tab>
+      </tabs>
+    </tab-panel>
+  </ion-content>
+</ion-view>

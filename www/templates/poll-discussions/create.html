@@ -1,0 +1,27 @@
+<ion-view view-title="New Group Discussion">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear" ng-click="sendButtonClicked()">Send</button>
+  </ion-nav-buttons>
+
+  <ion-content class="content has-footer" has-bouncing="false">
+    <ng-include src="'templates/shared/_create-content-group-picker.html'"></ng-include>
+
+    <form name="pollNewsForm" novalidate ng-class="formClass" autocomplete="off">
+      <fieldset class="add-post">
+          <textarea ng-model="data.discussion_description" maxlength="300"
+                    name="petition_body" required placeholder="{{placeholder}}"
+                    ng-init="data.chars_left = 300"
+                    ng-change="data.chars_left = 300 - data.discussion_description.length"></textarea>
+      </fieldset>
+      <add-attachments content-item="data"></add-attachments>
+    </form>
+
+  </ion-content>
+
+  <section class="footer-fixed" style="padding: 18px 12px;">
+    <strong class="right" ng-bind="data.chars_left"></strong>
+    <span ng-show="data.group && data.group.available !== undefined">
+      You have (<strong>{{ data.group.available}}</strong>) polls left in this group
+    </span>
+  </section>
+</ion-view>

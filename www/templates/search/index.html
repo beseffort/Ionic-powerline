@@ -1,0 +1,90 @@
+<ion-view view-title="Powerline" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  
+  <div class="bar bar-subheader bar-search">
+    <form class="filter" ng-submit="search(query)">
+      <input type="text" ng-model="query" placeholder="Search" />
+      <i class="icon ion-ios-search" ng-click="search(query)"></i>
+    </form>
+  </div>
+  
+  <ion-content class="content has-subheader" scroll-sista="subheader">
+
+    <p class="info-message" ng-hide="!lastUsedQuery || lastUsedQuery.length == 0 || !data || data.users.length || data.groups.length || data.representatives.length || data.posts.length  || data['user-petitions'].length">
+      That's strange. Looks like we couldn't find anything for <strong>{{ lastUsedQuery}}</strong>
+    </p>
+
+    <ul ng-show="data.users.length" class="margin-10 profiles-list-two">
+      <li class="title">Users</li>
+      <li ng-repeat="item in data.users" ng-click="navigateTo('owner-profile', item)">
+        <figure>
+          <avatar-img img="item.avatar_file_name" text="item.first_name"></avatar-img>
+        </figure>
+        <p>{{ item.username}}</p>
+        <p><span>{{ item.first_name}} {{ item.last_name}}</span></p>
+      </li>
+    </ul>
+
+    <ul ng-show="data.groups.length" class="margin-10 profiles-list">
+      <li class="title">Groups</li>
+      <li ng-repeat="item in data.groups" ng-click="navigateTo('owner-profile', item)">
+        <figure>
+          <avatar-img img="item.avatar_file_path" text="item.official_title"></avatar-img>
+        </figure>
+        <p>{{ item.official_title}}</p>
+      </li>
+    </ul>
+
+    <ul ng-show="data.representatives.length" class="margin-10 profiles-list-two">
+      <li class="title">Representatives</li>
+      <li ng-repeat="item in data.representatives" ng-click="navigateTo('owner-profile', item)">
+        <figure>
+          <avatar-img img="item.avatar_file_path" text="item.first_name"></avatar-img>
+        </figure>
+        <p>{{ item.first_name}} {{ item.last_name}}</p>
+        <p><span>{{ item.official_title}}</span></p>
+      </li>
+    </ul>
+
+    <div class="article-list margin-10" ng-show="data.posts">
+      <article class="item" ng-repeat="item in data.posts" ng-click="navigateTo('path', 'post', item.id)">
+        <div class="item-content">
+          <p>{{ item.html_body}}</p>
+        </div>
+        <div class="item-footer">
+          <div>
+            <span class="petition">Post</span>
+          </div>
+          <div>
+            <i class="responses"> <span>{{ item.votes.length}} Votes</span></i>
+          </div>
+          <div>
+            <i class="time"><time>{{ item.created_at | elapsed }}</time></i>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="article-list margin-10" ng-show="data['user-petitions']">
+      <article class="item" ng-repeat="item in data['user-petitions']" ng-click="navigateTo('path', 'user-petition', item.id)">
+        <div class="item-content">
+          <p>{{ item.title}}</p>
+          <p>{{ item.html_body}}</p>
+        </div>
+        <div class="item-footer">
+          <div>
+            <span class="petition">User Petition</span>
+          </div>
+          <div>
+            <i class="responses"> <span>{{ item.signatures.length}} Responses</span></i>
+          </div>
+          <div>
+            <i class="time"><time>{{ item.created_at | elapsed }}</time></i>
+          </div>
+        </div>
+      </article>
+    </div>
+  </ion-content>
+</ion-view>

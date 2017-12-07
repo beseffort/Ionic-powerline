@@ -1,0 +1,33 @@
+<ion-view view-title="My Groups" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <a class="button button-icon ion-android-add-circle button-clear" href="#/groups/search"></a>
+  </ion-nav-buttons>
+
+  <ion-content class="content page-my-groups">
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="pullToRefresh()">
+    </ion-refresher>
+
+    <section class="margin-8">
+      <ul ng-repeat="letterGroup in groupsGrupedByFirstLetter" class="profiles-list">
+        <li class="title">{{ letterGroup.letter}}</li>
+        <li ng-repeat="group in letterGroup.groups">
+          <figure ng-click="navigateTo('group-profile', group)">
+            <avatar-img img="group.avatar_file_path" text="group.official_name"></avatar-img>
+          </figure>
+          <p ng-click="navigateTo('group-profile', group)">{{ group.official_name}}</p>
+          <button ng-if="group.status === 1" class="button button-clear button-remove" ng-click="unjoin(group)"><i class="icon ion-android-remove-circle"></i></button>
+          <p ng-if="group.status === 0" class="pending-message">pending approval</p>
+        </li>
+      </ul>
+    </section>
+    <section ng-show="groupsGrupedByFirstLetter.length == 0" class="margin-10">
+      <p class="info-message" ng-show="!loading">Looks like you haven't joined any groups yet! Join or create one to make Powerline work for you!</p>
+    </section>
+
+  </ion-content>
+</ion-view>

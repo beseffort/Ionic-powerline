@@ -1,0 +1,109 @@
+<ion-view view-title="User Petition" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button class="button back-button buttons button-clear header-item" ng-click="goToHomeScreen()">
+      <i class="icon ion-ios-arrow-back"></i> 
+    </button>
+  </ion-nav-buttons>
+  
+  <ion-content class="page-petition content">
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="pullToRefresh()">
+    </ion-refresher>
+    
+    <section class="q-header margin-10">
+      <div class="avatar" ng-click="navigateTo('owner-profile', userPetition.owner)">
+        <avatar-img img="userPetition.owner.avatar" text="userPetition.owner.name"></avatar-img>
+      </div>
+      <div class="q-info">
+        <div>
+          <i class="icon-responses"></i> Responses <br>
+          <span ng-bind="userPetition.signedForPetitionCount()"></span>
+        </div>
+
+        <div>
+          <i class="icon-calendar"></i> Created <br>
+          <time ng-bind="userPetition.created_at_date | date:'M.d.yy'"></time>
+        </div>
+        <div>
+          <i class="icon-calendar"></i> Expires<br>
+          <time ng-bind="userPetition.expired_at_date | date:'M.d.yy'"></time>
+        </div>
+        <div>
+          User Petition <br>
+          <i class="icon-petition"></i>
+        </div>
+      </div>
+    </section>
+
+    <section class="q-content">
+      <div class="title">
+        <div>
+          <strong ng-click="navigateTo('owner-profile', userPetition.owner)">{{userPetition.owner.name}} | </strong>
+          <strong ng-click="navigateTo('group-profile', group)">{{group.official_name}}</strong>
+        </div>
+
+        <a ng-show="userPetition.ownedByCurrentUser()" ng-click="showDeleteConfirm()">
+          <i class="button-assertive icon ion-trash-a action-icon"></i>
+        </a>
+
+        <a ng-show="userPetition.ownedByCurrentUser() && !userPetition.isBoosted()" ng-click="onEditBtnClicked()">
+          <i class="action-icon" ng-class="{'ion-edit':inEditMode==false,'ion-checkmark':inEditMode==true}">
+          </i>
+        </a>
+
+        <a ng-show="isBoostable()" ng-click="onBoostButtonClicked()">
+          <i class="button-assertive icon ion-flash action-icon">
+          </i>
+        </a>
+        <a ng-show="canInviteSupporters()" ng-click="inviteSupporters()">
+          <i class="button-assertive icon ion-speakerphone action-icon">
+          </i>
+        </a>
+      </div>
+      
+      <h1 ng-bind="userPetition.title" ng-show="userPetition.title"></h1>
+      <div contenteditable="true">
+        <p ng-click="searchByTag($event)" ng-hide="inEditMode" ng-bind-html="userPetition.html_body" i-content-link></p>
+        <textarea ng-model="userPetition.body" ng-show="inEditMode" i-tags i-open-system-links style="border: 1px solid grey;
+            margin-left: 10px;
+            width: 90vw;
+            text-align: left;
+            min-height: 200px">
+        </textarea>
+      </div>
+
+      <div ng-show="userPetition.canSeeResults()">
+        <div class="chart">
+          <p class="info-message">Current  Results</p>
+          <p>Votes for this petition: {{userPetition.signedForPetitionCount() + 1}} </p>
+        </div>
+      </div>
+
+      <section class="margin-h-10" ng-show="userPetition.canBeSigned() || userPetition.canBeUnsigned()">
+          <div style="float: left;width: 50%;padding-top: 12px;" class="margin-v-20">
+              <div class="checkbox-privacy" ng-class="{checked: data.privacy == 'private'}" ng-click="data.privacy = data.privacy == 'private' ? 'public' : 'private'" guide="privacy-option">
+                  <i></i>
+                  {{ data.privacy == 'private' ? 'Username hidden' : 'Username visible'  }}
+              </div>
+          </div>
+          <div style="float: left;width: 50%;" class="margin-v-20">
+              <button class="btn-large btn-primary" ng-click="sign()" ng-show="userPetition.canBeSigned()">Sign</button>
+              <button class="btn-large btn-primary" ng-click="unsign()" ng-show="userPetition.canBeUnsigned()">Unsign</button>
+          </div>
+      </section>
+
+      <ng-include src="'templates/widget/share.html'"></ng-include>
+    </section>
+
+
+    <tab-panel>
+      <ul class="header">
+        <li ng-click="open($event)">Discussion</li>
+      </ul>
+      <tabs>
+        <tab><discussions id="userPetition.id" entity="'user-petitions'"></discussions></tab>
+      </tabs>
+    </tab-panel>
+  </ion-content>
+</ion-view>

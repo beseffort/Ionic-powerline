@@ -1,0 +1,29 @@
+<ion-view hide-nav-bar="true">
+
+  <ion-content class="content has-footer" scroll="false">
+    <section class="guide-content">
+      <header>
+        {{data.title}}
+        <a class="btn-close" ng-click="path('/main')"></a>
+      </header>
+      
+      <ion-slide-box active-slide="data.item" show-pager="false">
+        <ion-slide ng-style="{height: (minContentHeight - 150) + 'px'}" ng-repeat="i in [0,1,2,3,4,5,6]">
+          <img ng-src="images/v2/guide/{{ i + 1 }}.png">
+        </ion-slide>
+      </ion-slide-box>
+      
+    </section>
+
+    <section class="screen-process">
+      <i class="step" ng-repeat="i in [0, 1, 2, 3, 4, 5, 6]" ng-class="{active: $index === data.item}"></i>
+    </section>
+  </ion-content>
+  
+  <section class="footer-fixed">
+    <button ng-click="back()" class="btn-text-footer" ng-disabled="data.item === 0">Back</button>
+    <button ng-click="next()" class="btn-text-footer" ng-hide="data.item === 6">Next</button>
+    <button ng-click="path('/main')" class="btn-text-footer" ng-show="data.item === 6">Close</button>
+  </section>
+
+</ion-view>

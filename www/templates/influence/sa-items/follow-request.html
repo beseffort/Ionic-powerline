@@ -1,0 +1,41 @@
+<div class="item follow-request">
+  <div>
+    <div class="avatar">
+      <figure ng-click="socialActivityHandler.navigateToOwner(item);$event.stopPropagation();">
+        <avatar-img img="item.get('avatar')" text="item.get('avatar_title')"></avatar-img>
+      </figure>
+    </div>
+    <div class="item-content">
+      <div ng-bind-html="item.getHtmlMessage()"></div>
+      <i ng-class="['sa-type', item.get('sa-icon')]"><time>{{ item.get('created_at') | elapsed }}</time> ago</i>
+    </div>
+    <div class="buttons">
+        <button class="btn-text-bordered pressed"
+                ng-if="item.get('userFollow').isApprovedByCurrentUser()"
+                ng-click="send(item.get('userFollow').unApprove())"
+                class="pressed">
+                Unapprove
+        </button>
+        <button class="btn-text-bordered"
+                ng-if="!item.get('userFollow').isApprovedByCurrentUser()"
+                ng-click="send(item.get('userFollow').approve())">
+                Approve
+        </button>
+        <button class="btn-text-bordered pressed"
+              ng-if="item.get('userFollow').isFollowedByCurrentUser()"
+              ng-click="send(item.get('userFollow').unFollowByCurrentUser())">
+              Unfollow
+        </button>
+        <button class="btn-text-bordered"
+              ng-if="!item.get('userFollow').isFollowedByCurrentUser()"
+              ng-click="send(item.get('userFollow').followByCurrentUser())">
+              Follow
+        </button>
+        <button class="btn-text-bordered"
+                ng-if="!item.ignored() && !item.isApprovedByCurrentUser()"
+                ng-click="item.ignore();send()">
+                Ignore
+        </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<ion-view view-title="New User Petition">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear" ng-click="sendButtonClicked(true)">Send</button>
+  </ion-nav-buttons>
+
+  <ion-content class="content has-footer" has-bouncing="false">
+    <ng-include src="'templates/shared/_create-content-group-picker.html'"></ng-include>
+
+    <form name="petitionForm" novalidate ng-class="formClass" autocomplete="off">
+      <fieldset class="add-post">
+        <div class="title-field" ng-class="invalidClass(petitionForm.title.$invalid)">
+            <input ng-model="data.title" name="title" maxlength="255" focus-me="!data.openChoices" required placeholder="Type title here" />
+        </div>
+        <textarea ng-model="data.petition_body" maxlength="2500" name="petition_body"
+                  required placeholder="Type your message here"
+                  i-autocomplete
+                  ng-init="data.chars_left = 2500"
+                  ng-change="data.chars_left = 2500 - data.petition_body.length"></textarea>
+    </fieldset>
+
+      <section class="ng-hide">
+        <input type="hidden" ng-model="data.group" name="group">
+      </section>
+      <input type="button" ng-click="create(petitionForm)" id="submitter" class="ng-hide">
+    </form>
+
+  </ion-content>
+
+  <section class="footer-fixed" style="padding: 18px 12px;">
+    <strong class="right" ng-bind="data.chars_left"></strong>
+    <span ng-show="data.group && data.group.petitions_remaining !== undefined">
+      You have (<strong>{{ data.group.petitions_remaining}}</strong>) petitions left in this group
+    </span>
+  </section>
+</ion-view>

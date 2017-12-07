@@ -1,0 +1,28 @@
+<ion-view view-title="New Post">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear" ng-click="sendButtonClicked(true)">Send</button>
+  </ion-nav-buttons>
+
+  <ion-content class="content has-footer" has-bouncing="false">
+    <ng-include src="'templates/shared/_create-content-group-picker.html'"></ng-include>
+
+    <form name="postForm" novalidate ng-class="formClass" autocomplete="off">
+      <fieldset class="add-post">
+          <textarea ng-model="data.post_text" maxlength="300" focus-me="!data.openChoices"
+                    name="post_text" required placeholder="{{placeholder}}"
+                    i-autocomplete
+                    ng-init="data.chars_left = 300"
+                    ng-change="data.chars_left = 300 - data.post_text.length"></textarea>
+      </fieldset>
+      <input type="button" ng-click="create(postForm)" id="submitter" class="ng-hide">
+    </form>
+
+  </ion-content>
+
+  <section class="footer-fixed" style="padding: 18px 12px;">
+    <strong class="right" ng-bind="data.chars_left"></strong>
+    <span ng-show="data.group && data.group.posts_remaining !== undefined">
+      You have (<strong>{{ data.group.posts_remaining}}</strong>) petitions left in this group
+    </span>
+  </section>
+</ion-view>

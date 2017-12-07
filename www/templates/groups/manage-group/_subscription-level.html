@@ -1,0 +1,131 @@
+<div class="manage-group-section" ng-class="isExpanded('subscription-level') ? 'active' : ''">
+  <div class="expand-icon" ng-click="toggleVisibility('subscription-level')"></div>
+  <div class="title" ng-click="toggleVisibility('subscription-level')">Subscription Level</div>
+  <div class="content" ng-show="isExpanded('subscription-level')">
+    <div class="current-subscription-level-info">
+      <div class="name">Current Account: 
+        <span class="capitalize">{{group.subscriptionLevel}}</span>
+      </div>
+      <div class="expire-at" 
+        ng-show="group.subscriptionLevelExpireAt">
+        Subscription plan will expire at: {{group.subscriptionLevelExpireAt | date:'M.d.yyyy'}}
+      </div>
+      <div class="expire-at" 
+        ng-show="group.nextPaymentAt">
+        The next charge for your group will be on {{group.nextPaymentAt | date:'M.d.yyyy'}} using card ending in {{group.paymentCard.last4}}.
+      </div>
+      <a class="cancel" 
+        ng-show="isSubscriptionLevelCancellable()"
+        ng-click="cancelSubscriptionLevel()">
+        Cancel subscription
+      </a>
+    </div>
+    <br/>
+
+    <div class="subscription-levels">
+      <div class="subscription-level" ng-click="changeSubscriptionLevel(groups.subscriptionLevels.FREE)">
+        <div class="price">
+          <div class="inner">Free/<br />month</div>
+        </div>
+        <div class="desc">
+          <div class="subscription-title">
+            Get Started
+          </div>
+          <div  class="audience-and-size">
+            Audience: Unlimited<br/>
+            Size: Unlimited
+          </div>              
+        </div>
+      </div>
+      <div class="select-button" 
+      ng-hide="isActiveSubscriptionLevel(groups.subscriptionLevels.FREE)"
+      ng-click="changeSubscriptionLevel(groups.subscriptionLevels.FREE)">Select</div>  
+
+      <div class="subscription-level" ng-click="changeSubscriptionLevel(groups.subscriptionLevels.SILVER)">
+        <div class="price">
+          <div class="inner">Silver<br />$19/month</div>
+        </div>
+        <div class="desc">
+          <div class="subscription-title">
+            For Controls
+          </div>
+          <div  class="audience-and-size">
+            Audience: Not Business<br/>
+            Size: Under 1k users
+          </div>      
+        </div>
+      </div>
+      <div class="select-button" 
+      ng-hide="isActiveSubscriptionLevel(groups.subscriptionLevels.SILVER)"
+      ng-click="changeSubscriptionLevel(groups.subscriptionLevels.SILVER)">Select</div>  
+
+      <div class="subscription-level" ng-click="changeSubscriptionLevel(groups.subscriptionLevels.GOLD)">
+        <div class="price">
+          <div class="inner">Gold<br />$39/month</div>
+        </div>
+        <div class="desc">
+          <div class="subscription-title">
+            Get Growth
+          </div>
+          <div  class="audience-and-size">
+            Audience: Unlimited<br/>
+            Size: Under 5k users
+          </div>      
+        </div>
+      </div>
+      <div class="select-button" 
+      ng-hide="isActiveSubscriptionLevel(groups.subscriptionLevels.GOLD)"
+      ng-click="changeSubscriptionLevel(groups.subscriptionLevels.GOLD)">Select</div>  
+
+      <div class="subscription-level" ng-click="changeSubscriptionLevel(groups.subscriptionLevels.PLATINUM)">
+        <div class="price">
+          <div class="inner">Platinum<br />$125/month</div>
+        </div>
+        <div class="desc">
+          <div class="subscription-title">
+            For Insights
+          </div>
+          <div  class="audience-and-size">
+            Audience: Not Business<br/>
+            Size: Unlimited
+          </div>      
+        </div>
+      </div>
+      <div class="select-button" 
+      ng-hide="isActiveSubscriptionLevel(groups.subscriptionLevels.PLATINUM)"
+      ng-click="changeSubscriptionLevel(groups.subscriptionLevels.PLATINUM)">Select</div> 
+
+    <div style="padding-top: 10px; text-align: center;">
+      <div ng-hide="group.paymentCard">
+        This group has no associated payment card.
+      </div>
+
+      <div ng-show="group.paymentCard">
+        This group has following payment card:<br/>
+        Card issued by: {{group.paymentCard.brand}}<br />
+        Card number ends with: {{group.paymentCard.last4}}
+      </div>
+    </div>
+
+    <div class="save-button-holder" style="margin-top: 11px;">
+      <button 
+        ng-click="addPaymentCard()"
+        class="button btn-primary">
+        {{group.paymentCard ? 'Change' : 'Add'}}  Payment Card
+      </button>
+      <button 
+      ng-show="group.paymentCard"
+        ng-click="deletePaymentCard()"
+        class="button btn-primary delete-action">
+        Remove Card
+      </button>
+    </div>
+
+    </div>
+  </div>
+</div>  
+
+<group-payment-card-form ng-show="showAddPaymentCardPopup"
+  cancel="showAddPaymentCardPopup=false"
+  completed="showAddPaymentCardPopup=false;paymentCardAdded()"
+  group="group"></group-payment-card-form>

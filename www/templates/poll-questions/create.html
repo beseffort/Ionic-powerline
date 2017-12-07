@@ -1,0 +1,48 @@
+<ion-view view-title="New Group Poll">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear" ng-click="sendButtonClicked()">Send</button>
+  </ion-nav-buttons>
+
+  <ion-content class="content has-footer" has-bouncing="false">
+    <ng-include src="'templates/shared/_create-content-group-picker.html'"></ng-include>
+
+    <form name="pollQuestionForm" novalidate ng-class="formClass" autocomplete="off">
+      <fieldset class="add-post">
+        <div class="title-field" ng-class="invalidClass(pollQuestionForm.question_text.$invalid)">
+            <input ng-model="data.question_text" name="question_text" maxlength="255" required placeholder="Type question here" />
+        </div>
+
+        <div ng-repeat="answer in answers track by $index">
+          <button style="float:right; position: relative; top: -5px;" 
+          class="button icon ion-close-circled button-clear"
+          ng-click="removeAnswer($index)">
+          </button>
+          <div style="overflow: hidden;">
+            <input class="title-field" 
+            style="" 
+            ng-model="answer.answer_text" 
+            name="question_text" 
+            maxlength="255" 
+            required placeholder="Type answer here" />
+          </div>
+        </div>
+        <div style="width: 200px;" class="margin-v-20">
+          <button class="btn-large btn-primary icon-left ion-plus-circled"
+          ng-click="addAnswer()">
+            Add answer
+          </button>
+        </div>
+      </fieldset>
+
+      <add-attachments content-item="data"></add-attachments>
+    </form>
+
+  </ion-content>
+
+  <section class="footer-fixed" style="padding: 18px 12px;">
+    <strong class="right" ng-bind="data.chars_left"></strong>
+    <span ng-show="data.group && data.group.available !== undefined">
+      You have (<strong>{{ data.group.available}}</strong>) polls left in this group
+    </span>
+  </section>
+</ion-view>

@@ -1,0 +1,79 @@
+<div class="manage-group-section" id="group-invites" ng-class="isExpanded('basic-settings') ? 'active' : ''">
+  <div class="expand-icon" ng-click="toggleVisibility('basic-settings')"></div>
+  <div class="title" ng-click="toggleVisibility('basic-settings')">Profile Setup</div>
+  <div class="content" ng-show="isExpanded('basic-settings')">
+
+    <div>
+      <div class="label">
+        Group Owner: 
+      </div>
+      <div style="font-size: 14px; padding-bottom: 8px">
+        {{group.owner.first_name + ' ' + group.owner.last_name }}
+      </div>
+      <div class="label">
+        Group Name
+      </div>
+      <input 
+        ng-model="data.basic_settings.official_name" 
+        maxlength="255" 
+        placeholder="Group Name" />
+
+      <div class="label">
+        Group Description (optional)
+      </div>
+      <input 
+        ng-model="data.basic_settings.official_description" 
+        maxlength="255" 
+        placeholder="Group Description (optional)" />
+
+      <div class="label">
+        Group Acronym (optional)
+      </div>
+      <input 
+        ng-model="data.basic_settings.acronym" 
+        maxlength="255" 
+        placeholder="Group Acronym (optional)" />
+
+      <div class="label">
+        Group Type
+      </div>
+      <select 
+        ng-model="data.basic_settings.official_type"
+        ng-options="item as item for item in officialTypeOptions">
+      </select>
+
+      <div class="label">
+        Group Address (optional)
+      </div>
+      <input 
+        ng-model="data.basic_settings.official_address" 
+        maxlength="255" 
+        placeholder="Address (optional)" />
+
+      <div class="label">
+        City (optional)
+      </div>
+      <input 
+        ng-model="data.basic_settings.official_city" 
+        maxlength="255" 
+        placeholder="City (optional)" />
+
+      <div class="label">
+        State (optional)
+      </div>
+      <input 
+        ng-model="data.basic_settings.official_state" 
+        maxlength="255" 
+        placeholder="State (optional)" />
+    </div>
+
+    <div style="padding-top: 10px;" class="save-button-holder">
+      <button 
+        ng-click="saveBasicSettings()"
+        class="button btn-primary">
+        Save
+      </button>
+    </div>
+
+  </div>
+</div>
